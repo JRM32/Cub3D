@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:50:05 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/09 11:41:53 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/09 19:35:18 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,5 @@ void	raycaster(t_game *game, int x)
 	set_direction_of_ray(game);
 	run_dda(game);
 	set_draw_length_without_fish_fx(game);
-	choose_color(game);
-	paint_ray(game, x);
+	choose_color(game, x);
 }
