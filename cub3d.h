@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:50:42 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 11:51:18 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:04:14 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,9 @@ typedef struct s_enemy
 {
 	int		e_x;
 	int		e_y;
+	int		loaded;
+	int		updated_dist;
+	int		num_enemies;
 	double	e_dist;
 }			t_enemy;
 
@@ -210,5 +213,7 @@ void	render_jumping_background(t_game *game);
 void	draw_minimap(t_game *game);
 void	draw_minisprite_on_canvas(t_game *game, t_sprite sprite, int x, int y);
 void	raycaster_door(t_game *game, int x);
+void	enemy(t_game *game, int x);
+void	draw_enemy_on_canvas(t_game *game, t_sprite sprite);
 
 #endif
