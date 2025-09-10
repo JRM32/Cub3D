@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:50:42 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 11:15:09 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:51:18 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,12 +170,20 @@ typedef struct s_player
 	int		i;//iteration for animation of door
 }			t_player;
 
+typedef struct s_enemy
+{
+	int		e_x;
+	int		e_y;
+	double	e_dist;
+}			t_enemy;
+
 typedef struct s_game
 {
 	t_window	*win;
 	t_map		*map;
 	t_keys		keys;
 	t_player	player;
+	t_enemy		enemy;
 }				t_game;
 
 void	clean_up_memory(t_game *game, size_t i);
