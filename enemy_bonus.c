@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:44:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 18:43:33 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/10 20:29:17 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	calculate_screen_position_size(t_game *game, double dx, double dy)
 	inv_det = 1.0 / (map->dir_x * map->plane_y - map->dir_y * map->plane_x);
 	trans_x = inv_det * (map->dir_y * dx - map->dir_x * dy);
 	trans_y = inv_det * (-map->plane_y * dx + map->plane_x * dy);
+
 	game->enemy.sprite_size = abs((int)(WIN_H / trans_y));
 	
 	game->enemy.screen_x = (int)((WIN_W / 2) * (1 + trans_x / trans_y)) - game->enemy.sprite_size / 2;
@@ -71,7 +72,6 @@ void	calculate_screen_position_size(t_game *game, double dx, double dy)
 	if (game->enemy.screen_y < 0)
 		game->enemy.screen_y = 0;	
 }
-
 
 
 /*By pythagoras we have distance from dx and dy
