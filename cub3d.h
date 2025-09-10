@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:50:42 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 11:51:18 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/10 13:09:51 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # define COLLISION_DISTANCE 0.4
 # define ROTATION_SPEED 1.2
 # define VALID_MAP_CHARS "NSEW01\n"
-# define VALID_BONUSMAP_CHARS "NSEW01dx\n"//d door, x enemy
+# define VALID_BONUSMAP_CHARS "NSEW01dx \n"//d door, x enemy
 
 typedef struct s_data
 {
