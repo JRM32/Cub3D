@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:02:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/08/06 16:26:48 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:53:42 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	check_line(char *line, char *next_line, t_map *map, size_t columns)
 
 	i = 0;
 	map->lines++;
-	if (ft_strlen(line) != columns)
-		map->no_rectangle = 1;
 	while (line[i])
 	{
 		if (!ft_strchr(VALID_MAP_CHARS, line[i]))
@@ -92,12 +90,6 @@ void	check_map(t_map *map, char *map_dir)
 	close (fd);
 }
 
-/*if we have an rectangled map surrounded by all walls, we have to have a...*/
-/*...minimum of 2 top & botton lines all walls (2 * number of columns) ...*/
-/*... plus each internal rows one wall in extremes (2 * (lines - 2))...*/
-/*... -2 because we don't count again the top and botton lines. If we have...*/
-/*...more or less than that because I didn't count the internal walls...*/
-/*...then the map is not closed.*/
 int	check_map_errors(t_map *map)
 {
 	int	error;
@@ -105,7 +97,7 @@ int	check_map_errors(t_map *map)
 
 	error = 0;
 	closed_walls = map->columns * 2 + (map->lines - 2) * 2;
-	if (closed_walls != map->num_walls || map->no_rectangle
+	if (closed_walls != map->num_walls
 		|| map->num_p != 1 || map->no_valid_char == 1)
 	{
 		write(1, "Error\n", 6);
@@ -113,8 +105,6 @@ int	check_map_errors(t_map *map)
 	}
 	if (closed_walls != map->num_walls)
 		write(1, "Map not fully closed by walls\n", 30);
-	if (map->no_rectangle)
-		write(1, "Not a rectangular map\n", 22);
 	if (map->num_p != 1)
 		write(1, "There is no char start position, or more than one\n", 50);
 	if (map->no_valid_char)
@@ -122,7 +112,6 @@ int	check_map_errors(t_map *map)
 	return (error);
 }
 
-/*map->lines == 0 in if, is because fd = -1 in open file*/
 t_map	*process_map(char *map_dir)
 {
 	t_map	*map;
