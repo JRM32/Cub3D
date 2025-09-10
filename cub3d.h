@@ -166,6 +166,9 @@ typedef struct s_enemy
 	int		updated_dist;
 	int		num_enemies;
 	double	e_dist;
+	int		screen_x;
+	int		screen_y;
+	int		sprite_size;
 }			t_enemy;
 
 typedef struct s_game
@@ -202,6 +205,7 @@ void	draw_minimap(t_game *game);
 void	draw_minisprite_on_canvas(t_game *game, t_sprite sprite, int x, int y);
 void	raycaster_door(t_game *game, int x);
 void	enemy(t_game *game, int x);
-void	draw_enemy_on_canvas(t_game *game, t_sprite sprite);
+void	draw_enemy_on_canvas(t_game *game, t_sprite sprite, int px, int py);
 
 #endif
+

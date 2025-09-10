@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:44:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 16:05:55 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:43:33 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,40 @@ int	enemy_position(t_game *game)
 	}
 	return (0);	
 }
+/*We want to transform the sprite vector in the world (e_dx, e_dy) to camera...
+...coordinates (trans_x, trans_y), and that is a matrix formula:
+
+⎡trans_x⎤ = M-¹ * ⎡e_dx⎤
+⎣trans_y⎦	      ⎣e_dy⎦
+
+M-¹ = 1 / det(M) ⎡plane_y  -plane_x⎤
+                 ⎣-dir_y   -dir_x  ⎦
+
+det(M) =  dir_x * plane_y - dir_y * plane_x 
+
+inv_det = 1 / det(M)*/
+void	calculate_screen_position_size(t_game *game, double dx, double dy)
+{
+	t_map	*map;
+	double	inv_det;
+	double	trans_x;
+	double	trans_y;
+	
+	map = game->map;
+	inv_det = 1.0 / (map->dir_x * map->plane_y - map->dir_y * map->plane_x);
+	trans_x = inv_det * (map->dir_y * dx - map->dir_x * dy);
+	trans_y = inv_det * (-map->plane_y * dx + map->plane_x * dy);
+	game->enemy.sprite_size = abs((int)(WIN_H / trans_y));
+	
+	game->enemy.screen_x = (int)((WIN_W / 2) * (1 + trans_x / trans_y)) - game->enemy.sprite_size / 2;
+	game->enemy.screen_y = -game->enemy.sprite_size / 2 + WIN_H / 2;
+	if (game->enemy.screen_x < 0)
+		game->enemy.screen_x = 0;
+	if (game->enemy.screen_y < 0)
+		game->enemy.screen_y = 0;	
+}
+
+
 
 /*By pythagoras we have distance from dx and dy
 I want only to load enemy position once for performance so that is for...
@@ -48,7 +82,9 @@ void	enemy(t_game *game, int x)
 {
 	double	e_dx;
 	double	e_dy;
+	t_enemy	*foe;
 
+	foe = &game->enemy;
 	e_dx = game->enemy.e_x - game->map->p_x;
 	e_dy = game->enemy.e_y - game->map->p_y;	
 	if (!game->enemy.loaded && enemy_position(game))
@@ -65,5 +101,8 @@ void	enemy(t_game *game, int x)
 	}
 	(void)x;
 	if (game->enemy.num_enemies == 1)
-		draw_enemy_on_canvas(game, game->win->sprite[18]);
+	{
+		calculate_screen_position_size(game, e_dx, e_dy);
+		//draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x, foe->screen_y);
+	}	
 }
