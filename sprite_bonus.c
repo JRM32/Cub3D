@@ -79,10 +79,10 @@ void	load_sprites_and_background(t_game *game)
 	t_sprite	*sprite;
 
 	sprite = game->win->sprite;
-	sprite[0].bitmap[0] = "./textures/stonewall.xpm";
-	sprite[1].bitmap[0] = "./textures/stonewall.xpm";
-	sprite[2].bitmap[0] = "./textures/stonewall_dark.xpm";
-	sprite[3].bitmap[0] = "./textures/stonewall_dark.xpm";
+	sprite[0].bitmap[0] = game->map->NO_tex;
+	sprite[1].bitmap[0] = game->map->SO_tex;
+	sprite[2].bitmap[0] = game->map->EA_tex;
+	sprite[3].bitmap[0] = game->map->WE_tex;
 	sprite[4].bitmap[0] = "./textures/miniwall.xpm";
 	sprite[5].bitmap[0] = "./textures/MiniPlayer_N.xpm";
 	sprite[6].bitmap[0] = "./textures/MiniPlayer_NE.xpm";
