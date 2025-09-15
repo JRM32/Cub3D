@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:19:28 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 15:46:04 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:11:21 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	load_sprites(t_game *game)
 		if (!sprite[i].img[0].img)
 		{
 			clean_up_memory(game, 0);
+			printf("Error\nTexture file does not exist\n");
 			exit (1);
 		}
 		load_texture_address(&sprite[i].img[0], game);
@@ -78,7 +79,7 @@ void	load_sprites_and_background(t_game *game)
 	t_sprite	*sprite;
 
 	sprite = game->win->sprite;
-	
+
 	sprite[0].bitmap[0] = game->map->NO_tex;
 	sprite[1].bitmap[0] = game->map->SO_tex;
 	sprite[2].bitmap[0] = game->map->EA_tex;

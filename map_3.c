@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  #+#  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-09-14 10:06:00 by user              #+#    #+#             */
-/*   Updated: 2025-09-14 10:06:00 by user             ###   ########.fr       */
+/*   Created: 2025/09/14 10:06:00 by user              #+#    #+#             */
+/*   Updated: 2025/09/15 17:39:09 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	check_map_errors(t_map *map)
 	int	error;
 
 	error = 0;
-	if (map->NO_tex == NULL || map->NO_tex == NULL
-		|| map->NO_tex == NULL || map->NO_tex == NULL
+	if (map->NO_tex == NULL || map->EA_tex == NULL
+		|| map->SO_tex == NULL || map->WE_tex == NULL
 		|| map->floor_color == -1 || map->sky_color == -1)
 		error = printf("Error\nNeed to specify textures and sky/floor color in .cub file\n");
 	if (map->num_p != 1)

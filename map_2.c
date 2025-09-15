@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:46:31 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 16:06:44 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:55:58 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "get_next_line.h"
 
 /* plane_x/y is a rotation vector from dirx/y 90deg or π/2 so applying the...
-...matrix rotation in 2D: 
+...matrix rotation in 2D:
 R(a) = ⎡ cos(θ)     -sin(θ)⎤ * 	⎡x⎤ -> ⎡A B⎤ * ⎡E⎤ = ⎡AE + BF⎤
-       ⎣ sin(θ)      cos(θ)⎦	⎣y⎦ -> ⎣C D⎦   ⎣F⎦   ⎣CE + DF⎦
-so... 
+		⎣ sin(θ)      cos(θ)⎦	⎣y⎦ -> ⎣C D⎦   ⎣F⎦   ⎣CE + DF⎦
+so...
 	x' = x * cos(θ) + (y * -sin(θ))
 	y' = x * sin(θ) + y * cos(θ)
 as
@@ -49,11 +49,11 @@ void	init_looking_direction(t_map *map, char c)
 */
 void	free_2d_array(char **arr, size_t size)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (!arr)
-		return;
+		return ;
 	while (i < size)
 	{
 		free(arr[i]);
@@ -63,21 +63,18 @@ void	free_2d_array(char **arr, size_t size)
 	free(arr);
 }
 
-int ft_isspace(char c) {
-    return (c == ' '  ||
-            c == '\t' ||
-            c == '\n' ||
-            c == '\v' ||
-            c == '\f' ||
-            c == '\r'); 
+int	ft_isspace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r');
 }
 
-int blank_line(char *s)
+int	blank_line(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		if (!ft_isspace(s[i]))
 			return (0);
@@ -86,70 +83,71 @@ int blank_line(char *s)
 	return (1);
 }
 
-int contains_invalid_char(char *str, char *valid)
+int	contains_invalid_char(char *str, char *valid)
 {
-    int i = 0;
-    int j;
-    int found;
+	int	i;
+	int	j;
+	int	found;
 
-    if (!str || blank_line(str))
-        return 1;
-    while (str[i] != '\0')
-    {
-        found = 0;
-        j = 0;
-        while (valid[j] != '\0')
-        {
-            if (str[i] == valid[j])
-            {
-                found = 1;
-                break;
-            }
-            j++;
-        }
-        if (!found)
-            return 1;
-        i++;
-    }
-    return 0;
+	i = 0;
+	if (!str || blank_line(str))
+		return (1);
+	while (str[i] != '\0')
+	{
+		found = 0;
+		j = 0;
+		while (valid[j] != '\0')
+		{
+			if (str[i] == valid[j])
+			{
+				found = 1;
+				break ;
+			}
+			j++;
+		}
+		if (!found)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-
-void save_color_in(char *s, int *buf, int *count)
+void	save_color_in(char *s, int *buf, int *count)
 {
-    int r;
-	int g;
-	int b;
-    int i;
+	int	r;
+	int	g;
+	int	b;
+	int	i;
 
 	r = 0;
 	g = 0;
 	b = 0;
-    i = 0;
-    while (ft_isspace(s[i]))
-        i++;
-    r = ft_atoi(&s[i]);
-    while (s[i] && s[i] != ',')
-        i++;
-    while (ft_isspace(s[i]) || s[i] == ',')
-        i++;
-    g = ft_atoi(&s[i]);
-    while (s[i] && s[i] != ',')
-        i++;
-    while (ft_isspace(s[i]) || s[i] == ',')
-        i++;
-    b = ft_atoi(&s[i]);
-    *buf = (r << 16) | (g << 8) | b;
+	i = 0;
+	while (ft_isspace(s[i]))
+		i++;
+	r = ft_atoi(&s[i]);
+	while (s[i] && s[i] != ',')
+		i++;
+	while (ft_isspace(s[i]) || s[i] == ',')
+		i++;
+	g = ft_atoi(&s[i]);
+	while (s[i] && s[i] != ',')
+		i++;
+	while (ft_isspace(s[i]) || s[i] == ',')
+		i++;
+	b = ft_atoi(&s[i]);
+	*buf = (r << 16) | (g << 8) | b;
 	*count += i - 1;
 }
 
-void save_texture_in(char *s, char **buf, int *count)
+void	save_texture_in(char *s, char **buf, int *count)
 {
-	int i = 0;
-	int j;
+	int	i;
+	int	j;
 
+	i = 0;
 	if (!s || !buf)
-		return;
+		return ;
 	while (ft_isspace(s[i]))
 		i++;
 	j = ft_strlen(s + i) - 1;
@@ -184,7 +182,7 @@ char	*make_padding(size_t count)
 }
 
 /*
-** Hacw join de la línea y el padding y libera 
+** Hacw join de la línea y el padding y libera
 */
 char	*join_and_replace(char *line, char *padding)
 {
@@ -214,17 +212,11 @@ char	*join_and_replace(char *line, char *padding)
 */
 static void	remove_newline_and_truncate(char **row)
 {
-	size_t	len;
-
-	len = ft_strlen(*row);
+	size_t len = ft_strlen(*row);
 	if (len > 0 && (*row)[len - 1] == '\n')
-	{
-		(*row)[len - 1] = '\0';
-		len--;
-	}
-	if (len > 0)
 		(*row)[len - 1] = '\0';
 }
+
 
 static void	pad_row_with_zeros(char **row, size_t columns)
 {
@@ -282,6 +274,13 @@ void	squarify_map(size_t size, t_map *map)
 	}
 }
 
+/////////////////////////////////////77
+/////////////////////////////////////77
+/////////////////////////////////////77
+/////////////////////////////////////77
+/////////////////////////////////////77
+/////////////////////////////////////77
+/////////////////////////////////////77
 void	init_textures(t_map *map)
 {
 	map->NO_tex = NULL;
@@ -291,7 +290,6 @@ void	init_textures(t_map *map)
 	map->floor_color = -1;
 	map->sky_color = -1;
 }
-
 
 /*
 ** Carga líneas en el mapa
@@ -321,7 +319,7 @@ void	load_lines(int fd, char *line, t_map *map)
 	map->map[i] = NULL;
 }
 
-int how_many_lines(char *map_dir)
+int	how_many_lines(char *map_dir)
 {
 	char	*line;
 	int		cols;
@@ -338,7 +336,7 @@ int how_many_lines(char *map_dir)
 		free(line);
 		line = get_next_line(fd);
 	}
-	close (fd);
+	close(fd);
 	return (cols);
 }
 
@@ -367,9 +365,5 @@ void	load_map(t_map *map, char *map_dir)
 		return ;
 	}
 	load_lines(fd, line, map);
-	close (fd);
+	close(fd);
 }
-
-
-
-

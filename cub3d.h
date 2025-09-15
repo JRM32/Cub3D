@@ -221,6 +221,8 @@ int		issafe(int x, int y, char **arr);
 int		check_map_errors(t_map *map);
 int		floodfill(int x, int y, char **arr);
 void	zerify_map(t_map *map);
+int		ft_isspace(char c);
+
 
 
 #endif

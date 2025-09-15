@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:02:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 15:38:43 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:41:29 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,41 @@ void	check_line(char *line, char *next_line, t_map *map, size_t columns)
 		check_internal_lines(line, map, columns, map->lines);
 }
 
+int	free_and_get_line(int *is_first_char, char **line, int fd)
+{
+	free(*line);
+	*line = get_next_line(fd);
+	*is_first_char = 1;
+	return (0);
+}
+
 char	*jump_to_map(int fd, char *line, t_map *map)
 {
-	int i;
-	i = -1;
+	int	i;
+	int	is_first_char;
 
+	i = -1;
+	is_first_char = 1;
 	while (line != NULL && contains_invalid_char(line, VALID_MAP_CHARS))
 	{
-		if(line[++i] == '\0')
-		{
-			i = 0;
-			free(line);
-			line = get_next_line(fd);
-		}
-		if (line[i] == 'N' && line[i + 1] == 'O')
+		if (line[++i] == '\0')
+			i = free_and_get_line(&is_first_char, &line, fd);
+		if (line[i] == 'N' && line[i + 1] == 'O' && is_first_char)
 			save_texture_in(&(line[i + 2]), &(map->NO_tex), &i);
-		else if (line[i] == 'S' && line[i + 1] == 'O')
+		else if (line[i] == 'S' && line[i + 1] == 'O' && is_first_char)
 			save_texture_in(&(line[i + 2]), &(map->SO_tex), &i);
-		else if (line[i] == 'W' && line[i + 1] == 'E')
+		else if (line[i] == 'W' && line[i + 1] == 'E' && is_first_char)
 			save_texture_in(&(line[i + 2]), &(map->WE_tex), &i);
-		else if (line[i] == 'E' && line[i + 1] == 'A')
+		else if (line[i] == 'E' && line[i + 1] == 'A' && is_first_char)
 			save_texture_in(&(line[i + 2]), &(map->EA_tex), &i);
-		else if (line[i] == 'F')
+		else if (line[i] == 'F' && is_first_char)
 			save_color_in(&(line[i + 1]), &(map->floor_color), &i);
-		else if (line[i] == 'C')
+		else if (line[i] == 'C' && is_first_char)
 			save_color_in(&(line[i + 1]), &(map->sky_color), &i);
+		else if (!ft_isspace(line[i]))
+			is_first_char = 0;
 	}
-	return(line);
+	return (line);
 }
 
 void	check_map(t_map *map)
@@ -125,7 +133,7 @@ t_map	*process_map(char *map_dir)
 	load_map(map, map_dir);
 	if (!map->map)
 		return (free(map), NULL);
-	squarify_map(map->lines, map);
 	zerify_map(map);
+	squarify_map(map->lines, map);
 	return (map);
 }
