@@ -30,8 +30,8 @@
 # define JUMPING 300
 # define COLLISION_DISTANCE 0.4
 # define ROTATION_SPEED 1.2
-# define VALID_MAP_CHARS "NSEW01 \n\r"
-# define VALID_BONUSMAP_CHARS "NSEW01dx \n\r"//d door, x enemy
+# define VALID_MAP_CHARS "NSEW01\n"
+# define VALID_BONUSMAP_CHARS "NSEW01dx \n"//d door, x enemy
 
 typedef struct s_data
 {
@@ -127,10 +127,6 @@ typedef struct s_map
 	int		no_valid_char;
 	int		sky_color;
 	int		floor_color;
-	char	*NO_tex;
-	char	*WE_tex;
-	char	*EA_tex;
-	char	*SO_tex;
 	int		minicenter;
 	int		minix;
 	int		miniy;
@@ -210,17 +206,6 @@ void	draw_minisprite_on_canvas(t_game *game, t_sprite sprite, int x, int y);
 void	raycaster_door(t_game *game, int x);
 void	enemy(t_game *game, int x);
 void	draw_enemy_on_canvas(t_game *game, t_sprite sprite, int px, int py);
-void	print_2d_array(char **arr);
-void	squarify_map(size_t size, t_map *map);
-char	*jump_to_map(int fd, char *line, t_map *map);
-void	save_texture_in(char *s, char **buf, int *count);
-void	save_color_in(char *s, int *buf, int *count);
-int		contains_invalid_char(char *str, char *valid);
-void	free_map(t_map *map, int full_clean);
-int		issafe(int x, int y, char **arr);
-int		check_map_errors(t_map *map);
-int		floodfill(int x, int y, char **arr);
-void	zerify_map(t_map *map);
-
 
 #endif
+

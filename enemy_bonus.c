@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:44:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 20:29:17 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/15 11:37:23 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ void	enemy(t_game *game, int x)
 {
 	double	e_dx;
 	double	e_dy;
-	// t_enemy	*foe;
+	t_enemy	*foe;
 
-	// foe = &game->enemy;
+	foe = &game->enemy;
 	e_dx = game->enemy.e_x - game->map->p_x;
 	e_dy = game->enemy.e_y - game->map->p_y;	
 	if (!game->enemy.loaded && enemy_position(game))
 	{
-		perror("Error: This game doesn't allow more than one enemy");
+		perror("Error: This game don't allow more than one enemy");
 		clean_up_memory(game, 0);
 		exit (1);
 	}
@@ -103,6 +103,6 @@ void	enemy(t_game *game, int x)
 	if (game->enemy.num_enemies == 1)
 	{
 		calculate_screen_position_size(game, e_dx, e_dy);
-		//draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x, foe->screen_y);
+		draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x, foe->screen_y);
 	}	
 }

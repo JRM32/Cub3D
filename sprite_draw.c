@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 13:56:38 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 20:06:30 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/15 11:55:32 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,6 @@ void	draw_enemy_on_canvas(t_game *game, t_sprite sprite, int px, int py)
 		j++;
 	}
 }
-
-
-
-
-
-
-
 
 void	draw_minisprite_on_canvas(t_game *game, t_sprite sprite, int x, int y)
 {
