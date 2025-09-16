@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:44:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/16 13:23:18 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:07:37 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	enemy_position(t_game *game)
 		}
 		y++;
 	}
-	return (0);	
+	return (0);
 }
+
 /*We want to transform the sprite vector in the world (e_dx, e_dy) to camera...
 ...coordinates (trans_x, trans_y), and that is a matrix formula:
 
@@ -50,42 +51,46 @@ M-¹ = 1 / det(M) ⎡plane_y  -plane_x⎤
 
 det(M) =  dir_x * plane_y - dir_y * plane_x 
 
-inv_det = 1 / det(M)*/
-void calculate_screen_position_size(t_game *game, double dx, double dy)
+inv_det = 1 / det(M)
+but I change to det(M) = - dir_x * plane_y + dir_y * plane_x because invert
+to make it appear in screen, because hidding behind wall corners.
+
+if (trans_y <= 0.0) return; if sprite is behind camera don't calculate.
+
+if (sprite_size > WIN_H * 2) sprite_size = WIN_H * 2; to not force high spend...
+in performance.
+Last return is to not glue the sprite when moving camera to border of screen*/
+void	calculate_screen_position_size(t_game *game, double dx, double dy)
 {
-    t_map   *map;
-    double  inv_det;
-    double  trans_x;
-    double  trans_y;
-    int     sprite_size;
+	t_map	*map;
+	double	inv_det;
+	double	trans_x;
+	double	trans_y;
+	int		sprite_size;
 
-    map = game->map;
-    inv_det = 1.0 / (map->plane_x * map->dir_y - map->dir_x * map->plane_y);
-    trans_x = inv_det * (map->dir_y * dx - map->dir_x * dy);
-    trans_y = inv_det * (-map->plane_y * dx + map->plane_x * dy);
-
-    /* si está detrás o en el plano de la cámara, no lo proyectes */
-    if (trans_y <= 0.0)
-        return;
-
-    /* tamaño */
-    sprite_size = (int)fabs(WIN_H / trans_y);
-    /* limitar tamaño máximo razonable para evitar coste excesivo */
-    if (sprite_size > WIN_H * 2)
-        sprite_size = WIN_H * 2;
-    game->enemy.sprite_size = sprite_size;
-
-    game->enemy.screen_x = (int)((WIN_W / 2) * (1 + trans_x / trans_y)) - game->enemy.sprite_size / 2;
-    game->enemy.screen_y = -game->enemy.sprite_size / 2 + WIN_H / 2 + game->win->ray.walking_height;
-
-    /* NO establezcas screen_x = 0 — eso es lo que provoca que "se pegue" al borde. */
-    /* Comprueba si está totalmente fuera de la pantalla y evita dibujar en ese caso. */
-    if (game->enemy.screen_x + game->enemy.sprite_size < 0 || game->enemy.screen_x >= WIN_W)
-        return;
-    if (game->enemy.screen_y + game->enemy.sprite_size < 0 || game->enemy.screen_y >= WIN_H)
-        return;
+	map = game->map;
+	inv_det = 1.0 / (map->plane_x * map->dir_y - map->dir_x * map->plane_y);
+	trans_x = inv_det * (map->dir_y * dx - map->dir_x * dy);
+	trans_y = inv_det * (-map->plane_y * dx + map->plane_x * dy);
+	if (trans_y <= 0.0)
+		return ;
+	sprite_size = (int)fabs(WIN_H / trans_y);
+	if (sprite_size > WIN_H * 2)
+		sprite_size = WIN_H * 2;
+	game->enemy.sprite_size = sprite_size;
+	game->enemy.screen_x = (int)((WIN_W / 2) * (1 + trans_x / trans_y))
+		- game->enemy.sprite_size / 2;
+	game->enemy.screen_y = -game->enemy.sprite_size / 2 + WIN_H / 2
+		+ game->win->ray.walking_height;
+	if (game->enemy.screen_x + game->enemy.sprite_size < 0
+		|| game->enemy.screen_x >= WIN_W
+		|| game->enemy.screen_y + game->enemy.sprite_size < 0)
+		return ;
 }
 
+/*This function reset all the matrix of green pixels to 1 so allow view...
+of the enemy sprite once the first door hit is not found and reset to...
+1 the 0 that wasn't green pixels in the door texture*/
 void	reset_enemy_view_matrix(t_game *game)
 {
 	size_t	x;
@@ -97,7 +102,7 @@ void	reset_enemy_view_matrix(t_game *game)
 		x = 0;
 		while (x < WIN_W)
 		{
-			game->win->ray.green_pixel[x][y] = 1;	
+			game->win->ray.green_pixel[x][y] = 1;
 			x++;
 		}
 		y++;
@@ -116,7 +121,7 @@ void	enemy(t_game *game)
 
 	foe = &game->enemy;
 	e_dx = game->enemy.e_x - game->map->p_x;
-	e_dy = game->enemy.e_y - game->map->p_y;	
+	e_dy = game->enemy.e_y - game->map->p_y;
 	if (!game->enemy.loaded && enemy_position(game))
 	{
 		perror("Error: This game don't allow more than one enemy");
@@ -128,7 +133,8 @@ void	enemy(t_game *game)
 	if (game->enemy.num_enemies == 1)
 	{
 		calculate_screen_position_size(game, e_dx, e_dy);
-		draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x, foe->screen_y);
+		draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x,
+			foe->screen_y);
 		reset_enemy_view_matrix(game);
-	}	
+	}
 }
