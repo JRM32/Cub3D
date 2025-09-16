@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:44:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/16 16:37:21 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:20:59 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	enemy_position(t_game *game)
 					return (1);
 				game->enemy.e_x = x + 0.5;
 				game->enemy.e_y = y + 0.5;
+				game->enemy.number_hits = 0;
 			}
 			x++;
 		}
@@ -110,6 +111,24 @@ void	reset_enemy_view_matrix(t_game *game)
 	}
 }
 
+void	move_enemy(t_game *game)
+{
+	int	x;
+	int	y;
+
+	x = floor(game->enemy.e_x);
+	y = floor(game->enemy.e_y);
+	if (game->map->map[y][x + 1] == '1' && game->enemy.number_hits % 2 == 0)
+		game->enemy.number_hits++;
+	else if (game->map->map[y][x - 1] == '1' && game->enemy.number_hits % 2 != 0)
+		game->enemy.number_hits++;
+	if (game->enemy.number_hits % 2 == 0)
+		game->enemy.e_x += 0.05;
+	else
+		game->enemy.e_x -= 0.05;
+		
+}
+
 /*By pythagoras we have distance from dx and dy
 I want only to load enemy position once for performance so that is for...
 ...enemy.loaded. Also once if enemy not moving calculate the distance...
@@ -133,8 +152,8 @@ void	enemy(t_game *game)
 	game->enemy.e_dist = sqrt(e_dx * e_dx + e_dy * e_dy);
 	if (game->enemy.num_enemies == 1)
 	{
-		calculate_screen_pos_size(game, e_dx, e_dy,
-			game->enemy.float_index);
+		move_enemy(game);
+		calculate_screen_pos_size(game, e_dx, e_dy, game->enemy.float_index);
 		game->enemy.float_index += 0.2f;
 		draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x,
 			foe->screen_y);
