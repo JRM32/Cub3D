@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:44:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/16 15:07:37 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:37:21 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ if (trans_y <= 0.0) return; if sprite is behind camera don't calculate.
 if (sprite_size > WIN_H * 2) sprite_size = WIN_H * 2; to not force high spend...
 in performance.
 Last return is to not glue the sprite when moving camera to border of screen*/
-void	calculate_screen_position_size(t_game *game, double dx, double dy)
+void	calculate_screen_pos_size(t_game *game, double dx, double dy, int i)
 {
 	t_map	*map;
 	double	inv_det;
@@ -79,9 +79,10 @@ void	calculate_screen_position_size(t_game *game, double dx, double dy)
 		sprite_size = WIN_H * 2;
 	game->enemy.sprite_size = sprite_size;
 	game->enemy.screen_x = (int)((WIN_W / 2) * (1 + trans_x / trans_y))
-		- game->enemy.sprite_size / 2;
+		- game->enemy.sprite_size / 2 + cos(i) * game->enemy.sprite_size / 9.9f;
 	game->enemy.screen_y = -game->enemy.sprite_size / 2 + WIN_H / 2
-		+ game->win->ray.walking_height;
+		+ game->win->ray.walking_height
+		+ sin(i) * game->enemy.sprite_size / 20.0f;
 	if (game->enemy.screen_x + game->enemy.sprite_size < 0
 		|| game->enemy.screen_x >= WIN_W
 		|| game->enemy.screen_y + game->enemy.sprite_size < 0)
@@ -132,7 +133,9 @@ void	enemy(t_game *game)
 	game->enemy.e_dist = sqrt(e_dx * e_dx + e_dy * e_dy);
 	if (game->enemy.num_enemies == 1)
 	{
-		calculate_screen_position_size(game, e_dx, e_dy);
+		calculate_screen_pos_size(game, e_dx, e_dy,
+			game->enemy.float_index);
+		game->enemy.float_index += 0.2f;
 		draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x,
 			foe->screen_y);
 		reset_enemy_view_matrix(game);
