@@ -214,7 +214,7 @@ void	print_2d_array(char **arr);
 void	squarify_map(size_t size, t_map *map);
 char	*jump_to_map(int fd, char *line, t_map *map);
 void	save_texture_in(char *s, char **buf, int *count);
-void	save_color_in(char *s, int *buf, int *count);
+void	save_color_in(const char *s, int *buf, int *count);
 int		contains_invalid_char(char *str, char *valid);
 void	free_map(t_map *map, int full_clean);
 int		issafe(int x, int y, char **arr);

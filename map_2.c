@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:46:31 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/15 16:55:58 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/17 10:00:49 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,30 +112,39 @@ int	contains_invalid_char(char *str, char *valid)
 	return (0);
 }
 
-void	save_color_in(char *s, int *buf, int *count)
+int	parse_color_component(const char *s, int *i)
 {
+	int	value;
+
+	while (ft_isspace(s[*i]) || s[*i] == ',')
+		(*i)++;
+	value = ft_atoi(&s[*i]);
+	if (ft_strlen(&s[*i]) == 0 || value < 0 || value > 255)
+		return (-1);
+	while (s[*i] && s[*i] != ',')
+		(*i)++;
+	return (value);
+}
+
+// Refactorización de tu función principal
+void	save_color_in(const char *s, int *buf, int *count)
+{
+	int	i;
 	int	r;
 	int	g;
 	int	b;
-	int	i;
 
-	r = 0;
-	g = 0;
-	b = 0;
 	i = 0;
 	while (ft_isspace(s[i]))
 		i++;
-	r = ft_atoi(&s[i]);
-	while (s[i] && s[i] != ',')
-		i++;
-	while (ft_isspace(s[i]) || s[i] == ',')
-		i++;
-	g = ft_atoi(&s[i]);
-	while (s[i] && s[i] != ',')
-		i++;
-	while (ft_isspace(s[i]) || s[i] == ',')
-		i++;
-	b = ft_atoi(&s[i]);
+	r = parse_color_component(s, &i);
+	g = parse_color_component(s, &i);
+	b = parse_color_component(s, &i);
+	if (r == -1 || g == -1 || b == -1)
+	{
+		*buf = -1;
+		return ;
+	}
 	*buf = (r << 16) | (g << 8) | b;
 	*count += i - 1;
 }
@@ -212,11 +221,12 @@ char	*join_and_replace(char *line, char *padding)
 */
 static void	remove_newline_and_truncate(char **row)
 {
-	size_t len = ft_strlen(*row);
+	size_t	len;
+
+	len = ft_strlen(*row);
 	if (len > 0 && (*row)[len - 1] == '\n')
 		(*row)[len - 1] = '\0';
 }
-
 
 static void	pad_row_with_zeros(char **row, size_t columns)
 {
