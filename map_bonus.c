@@ -25,7 +25,7 @@ void	check_internal_lines(char *line, t_map *map, size_t columns, size_t ln)
 		if (i == (columns - 1) && line[columns - 1] == '1'
 			&& ft_strlen(line) == columns)
 			map->num_walls++;
-		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E'
+		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E'\
 			|| line[i] == 'W')
 		{
 			map->num_p++;
@@ -43,17 +43,26 @@ void	check_line(char *line, char *next_line, t_map *map, size_t columns)
 
 	i = 0;
 	map->lines++;
+	if (ft_strlen(line) != columns)
+		map->no_rectangle = 1;
 	while (line[i])
 	{
 		if (!ft_strchr(VALID_BONUSMAP_CHARS, line[i]))
-		{
-			if (line[i] != ' ')
-				map->no_valid_char = 1;
-		}
+			map->no_valid_char = 1;
 		i++;
 	}
-	if (map->lines != 1 && next_line != NULL)
-		check_internal_lines(line, map, columns, map->lines);
+	i = 0;
+	if (map->lines == 1 || next_line == NULL)
+	{
+		while (line[i])
+		{
+			if (line[i] == '1')
+				map->num_walls++;
+			i++;
+		}
+		return ;
+	}
+	check_internal_lines(line, map, columns, map->lines);
 }
 
 
@@ -129,18 +138,9 @@ t_map	*process_map(char *map_dir)
 	map = (t_map *)ft_calloc(1, sizeof(t_map));
 	if (!map)
 		return (NULL);
-	load_map(map, map_dir);
-	check_map(map);
+	check_map(map, map_dir);
 	if (check_map_errors(map) || map->lines == 0)
 		return (free(map), NULL);
-	if (!map->map)
-		return (free(map), NULL);
-	if (!floodfill(map->p_y, map->p_x, map->map))
-	{
-		printf("Error\nMap not fully surrounded by walls\n");
-		return (free(map), NULL);
-	}
-	free_map(map, 0);
 	load_map(map, map_dir);
 	if (!map->map)
 		return (free(map), NULL);
@@ -154,4 +154,3 @@ t_map	*process_map(char *map_dir)
 	// printf("SO_tex: %s\n", map->SO_tex);
 	return (map);
 }
-

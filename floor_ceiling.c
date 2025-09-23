@@ -92,8 +92,8 @@ void	render_jumping_background(t_game *game)
 	int		y;
 	int		back_h;
 
-	// game->map->sky_color = 0x00664470;
-	// game->map->floor_color = 0x00664400;
+	game->map->sky_color = 0x00664470;
+	game->map->floor_color = 0x00664400;
 	back_h = WIN_H + 2 * JUMPING;
 	game->win->bg.img = mlx_new_image(game->win->mlx, WIN_W, back_h);
 	if (!game->win->bg.img)

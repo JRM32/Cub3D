@@ -13,6 +13,51 @@
 #include "cub3d.h"
 #include "get_next_line.h"
 
+void	free_2d(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+int	issafe(int x, int y, char **arr)
+{
+	if (x < 0 || y < 0)
+		return (0);
+	if (!arr[x])
+		return (0);
+	if (arr[x][y] == '\0' || arr[x][y] == ' ')
+		return (0);
+	return (1);
+}
+
+int	floodfill(int x, int y, char **arr)
+{
+	int	up;
+	int	down;
+	int	left;
+	int	right;
+
+	if (!issafe(x, y, arr))
+		return (0);
+	if (arr[x][y] == '1' || arr[x][y] == 'V')
+		return (1);
+	arr[x][y] = 'V';
+	up = floodfill(x, y - 1, arr);
+	down = floodfill(x, y + 1, arr);
+	left = floodfill(x - 1, y, arr);
+	right = floodfill(x + 1, y, arr);
+	return (up && down && left && right);
+}
+
 void	check_internal_lines(char *line, t_map *map, size_t columns, size_t ln)
 {
 	size_t	i;
@@ -52,8 +97,18 @@ void	check_line(char *line, char *next_line, t_map *map, size_t columns)
 		}
 		i++;
 	}
-	if (map->lines != 1 && next_line != NULL)
-		check_internal_lines(line, map, columns, map->lines);
+	i = 0;
+	if (map->lines == 1 || next_line == NULL)
+	{
+		while (line[i])
+		{
+			if (line[i] == '1')
+				map->num_walls++;
+			i++;
+		}
+		return ;
+	}
+	check_internal_lines(line, map, columns, map->lines);
 }
 
 int	free_and_get_line(int *is_first_char, char **line, int fd)
@@ -92,25 +147,30 @@ char	*jump_to_map(int fd, char *line, t_map *map)
 	}
 	return (line);
 }
-
-void	check_map(t_map *map)
+// debug
+//
+//
+void	print_2d_array(char **arr)
 {
-	size_t	i;
-	size_t	len;
+	int	x;
+	int	y;
 
-	i = 0;
-	map->lines = 0;
-	map->columns = 0;
-	while (map->map[i])
+	x = 0;
+	while (arr && arr[x]) // Recorrer filas hasta NULL
 	{
-		len = ft_strlen(map->map[i]);
-		if (map->columns < len)
-			map->columns = len;
-		check_line(map->map[i], map->map[i + 1], map, map->columns);
-		i++;
+		y = 0;
+		while (arr[x][y] != '\0')
+		{
+			printf("%c", arr[x][y]);
+			y++;
+		}
+		x++;
 	}
 }
-
+//
+//
+//
+/*map->lines == 0 in if, is because fd = -1 in open file*/
 t_map	*process_map(char *map_dir)
 {
 	t_map	*map;
@@ -118,18 +178,20 @@ t_map	*process_map(char *map_dir)
 	map = (t_map *)ft_calloc(1, sizeof(t_map));
 	if (!map)
 		return (NULL);
-	load_map(map, map_dir);
-	check_map(map);
+	check_map(map, map_dir);
 	if (check_map_errors(map) || map->lines == 0)
 		return (free(map), NULL);
+	load_map(map, map_dir);
 	if (!map->map)
 		return (free(map), NULL);
+	printf("FLOODFILL\n");
 	if (!floodfill(map->p_y, map->p_x, map->map))
 	{
 		printf("Error\nMap not fully surrounded by walls\n");
 		return (free(map), NULL);
 	}
-	free_map(map, 0);
+	printf("SALIMOS DE FLOODFILL\n");
+	free_2d(map->map);
 	load_map(map, map_dir);
 	if (!map->map)
 		return (free(map), NULL);

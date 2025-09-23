@@ -7,7 +7,6 @@ MINILIBX = ./minilibx-linux/libmlx.a
 SRC = 			main.c \
 				window.c \
 				map_2.c \
-				map_3.c \
 				get_next_line.c \
 				get_next_line_utils.c \
 				raycast.c \
