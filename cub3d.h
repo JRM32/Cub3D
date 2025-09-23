@@ -215,6 +215,7 @@ void	draw_minisprite_on_canvas(t_game *game, t_sprite sprite, int x, int y);
 void	raycaster_door(t_game *game, int x);
 void	enemy(t_game *game);
 void	draw_enemy_on_canvas(t_game *game, t_sprite sprite, int px, int py);
+void	reset_enemy_view_matrix(t_game *game);
 void	print_2d_array(char **arr);
 void	squarify_map(size_t size, t_map *map);
 char	*jump_to_map(int fd, char *line, t_map *map);
@@ -229,7 +230,6 @@ void	zerify_map(t_map *map);
 int		ft_isspace(char c);
 
 
-void	reset_enemy_view_matrix(t_game *game);
 
 #endif
 
