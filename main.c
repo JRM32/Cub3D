@@ -12,29 +12,19 @@
 
 #include "cub3d.h"
 
-void	free_map(t_map *map, int full_clean)
+void	free_map(t_game *game)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < map->lines)
+	while (i < game->map->lines)
 	{
-		free(map->map[i]);
-		map->map[i] = NULL;
+		free(game->map->map[i]);
+		game->map->map[i] = NULL;
 		i++;
 	}
-	free(map->map);
-	free(map->NO_tex);
-	free(map->SO_tex);
-	free(map->WE_tex);
-	free(map->EA_tex);
-	map->NO_tex = NULL;
-	map->SO_tex = NULL;
-	map->WE_tex = NULL;
-	map->EA_tex = NULL;
-	if (full_clean)
-		free(map);
-
+	free(game->map->map);
+	free(game->map);
 }
 
 void	free_sprites(t_sprite *sprite, void *mlx)
@@ -74,7 +64,7 @@ void	clean_up_memory(t_game *game, size_t i)
 	if (game->win)
 		free(game->win);
 	if (game->map)
-		free_map(game->map, 1);
+		free_map(game);
 	free (game);
 }
 
@@ -100,6 +90,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (1);
 	(void)argc;
+	//check_ber(argv[1]);
 	game = (t_game *)ft_calloc(1, sizeof(t_game));
 	if (!game)
 		return (1);
@@ -114,39 +105,7 @@ int	main(int argc, char **argv)
 	if (!game->map)
 		return (clean_up_memory(game, 0), 1);
 	draw_window(game);
-	// printf(map->);
 	load_sprites_and_background(game);
 	hooks(game);
 	return (0);
 }
-
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <fcntl.h>
-
-// char *get_next_line(int fd);
-
-// int main(int argc, char **argv)
-// {
-//     int fd;
-//     char *line;
-
-//     if (argc != 2)
-//     {
-//         printf("Uso: %s <archivo_a_leer>\n", argv[0]);
-//         return (1);
-//     }
-//     fd = open(argv[1], O_RDONLY);
-//     if (fd < 0)
-//     {
-//         perror("Error abriendo el archivo");
-//         return (1);
-//     }
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         printf("%s", line);
-//         free(line);
-//     }
-//     close(fd);
-//     return (0);
-// }

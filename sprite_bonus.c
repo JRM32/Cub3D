@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:23:11 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 15:46:14 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:42:16 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	load_sprites(t_game *game)
 		load_texture_address(&sprite[i].img[0], game);
 		i++;
 	}
-	game->player.index = 14;//
+	game->player.index = 14;
+	game->enemy.float_index = 0;
 	//load_animated(game);
 }
 
@@ -79,10 +80,10 @@ void	load_sprites_and_background(t_game *game)
 	t_sprite	*sprite;
 
 	sprite = game->win->sprite;
-	sprite[0].bitmap[0] = game->map->NO_tex;
-	sprite[1].bitmap[0] = game->map->SO_tex;
-	sprite[2].bitmap[0] = game->map->EA_tex;
-	sprite[3].bitmap[0] = game->map->WE_tex;
+	sprite[0].bitmap[0] = "./textures/stonewall.xpm";
+	sprite[1].bitmap[0] = "./textures/stonewall.xpm";
+	sprite[2].bitmap[0] = "./textures/stonewall_dark.xpm";
+	sprite[3].bitmap[0] = "./textures/stonewall_dark.xpm";
 	sprite[4].bitmap[0] = "./textures/miniwall.xpm";
 	sprite[5].bitmap[0] = "./textures/MiniPlayer_N.xpm";
 	sprite[6].bitmap[0] = "./textures/MiniPlayer_NE.xpm";
