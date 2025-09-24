@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:19:28 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 13:17:26 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:35:13 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,11 @@ void	load_sprites(t_game *game)
 		if (!sprite[i].img[0].img)
 		{
 			clean_up_memory(game, 0);
-			printf("Error\nTexture file does not exist\n");
 			exit (1);
 		}
 		load_texture_address(&sprite[i].img[0], game);
 		i++;
 	}
-	//load_animated(game);
 }
 
 void	load_sprites_and_background(t_game *game)
@@ -79,7 +77,6 @@ void	load_sprites_and_background(t_game *game)
 	t_sprite	*sprite;
 
 	sprite = game->win->sprite;
-
 	sprite[0].bitmap[0] = game->map->NO_tex;
 	sprite[1].bitmap[0] = game->map->SO_tex;
 	sprite[2].bitmap[0] = game->map->EA_tex;
@@ -98,7 +95,7 @@ void	load_sprites_and_background(t_game *game)
 	sprite[15].bitmap[0] = "./textures/door_2.xpm";
 	sprite[16].bitmap[0] = "./textures/door_3.xpm";
 	sprite[17].bitmap[0] = "./textures/door_4.xpm";
-	sprite[18].bitmap[0] = "./textures/EA_256.xpm"; //enemigo
+	sprite[18].bitmap[0] = "./textures/skull.xpm";
 	load_sprites(game);
 	render_jumping_background(game);
 }

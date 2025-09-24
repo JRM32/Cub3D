@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:46:31 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 14:23:45 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:18:53 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ void	init_looking_direction(t_map *map, char c)
 {
 	double	fov_factor;
 
+	map->dir_x = 0;
+	map->dir_y = 0;
+	map->plane_x = 0;
+	map->plane_y = 0;
 	fov_factor = tan((FOV * PI / 180.0) / 2);
 	if (c == 'N')
 		map->dir_y = -1;
@@ -45,7 +49,7 @@ void	init_looking_direction(t_map *map, char c)
 }
 
 /*
-** Libera array bidimensional (seguro con NULL)
+** frees bidimensional array
 */
 void	free_2d_array(char **arr, size_t size)
 {
@@ -243,7 +247,7 @@ static void	pad_row_with_zeros(char **row, size_t columns)
 		if (!zero_buf)
 			exit(EXIT_FAILURE);
 		for (size_t i = 0; i < l; i++)
-			zero_buf[i] = '0';
+			zero_buf[i] = 'o';
 		zero_buf[l] = '\0';
 		tmp = *row;
 		*row = ft_strjoin(tmp, zero_buf);
@@ -301,9 +305,6 @@ void	init_textures(t_map *map)
 	map->sky_color = -1;
 }
 
-/*
-** Carga líneas en el mapa
-*/
 void	load_lines(int fd, char *line, t_map *map)
 {
 	size_t	i;

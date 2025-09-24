@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_door.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:39:04 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/15 15:22:02 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:29:55 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ void	door_color_picker(t_game *game, int y, int i, int x)
 		game->win->ray.color = search_color_in_door(
 				&sprite[i].img[0], game->win->ray.tex_x, tex_y, game);
 		if (game->win->ray.color != 0x0000FF00)
+		{
 			put_pixel(&game->win->canvas, x, y, game->win->ray.color);
+			game->win->ray.green_pixel[x][y] = 0;
+		}
 		y++;
 	}
 }
@@ -129,6 +132,8 @@ void	run_dda_door(t_game *game)
 	}
 }
 
+/*I set an array of hit_dist to record the distance of each x of screen...
+... width to compare with enemy sprite to hide behind wall corners*/
 void	set_draw_length_without_fish_fx_door(t_game *game, int x)
 {
 	t_ray	*ray;
@@ -144,7 +149,7 @@ void	set_draw_length_without_fish_fx_door(t_game *game, int x)
 		ray->perp_wall_dist = ray->dist_y - ray->delta_dist_y;
 		ray->wallx = game->map->p_x + ray->perp_wall_dist * ray->dir_x;
 	}
-	ray->hit_dist[x] = ray->perp_wall_dist;//
+	ray->door_dist[x] = ray->perp_wall_dist;
 	ray->wallx = ray->wallx - floor(ray->wallx);
 	ray->line_height = (int)((WIN_H / ray->perp_wall_dist) * WALL_HEIGHT);
 	ray->draw_start = (-ray->line_height / 2) + (WIN_H / 2)
@@ -190,7 +195,7 @@ void	state_of_the_door(t_game *game, double py, double px, int x)
 	char	e_grid;
 	char	w_grid;
 	char	grid;
-	
+
 	n_grid = game->map->map[(int)floor(py) - 1][(int)floor(px)];
 	s_grid = game->map->map[(int)floor(py) + 1][(int)floor(px)];
 	e_grid = game->map->map[(int)floor(py)][(int)floor(px) + 1];

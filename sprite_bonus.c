@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:23:11 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/10 15:46:14 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:33:48 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	load_sprites(t_game *game)
 		load_texture_address(&sprite[i].img[0], game);
 		i++;
 	}
-	game->player.index = 14;//
+	game->player.index = 14;
+	game->enemy.float_index = 0;
 	//load_animated(game);
 }
 
@@ -97,7 +98,7 @@ void	load_sprites_and_background(t_game *game)
 	sprite[15].bitmap[0] = "./textures/door_2.xpm";
 	sprite[16].bitmap[0] = "./textures/door_3.xpm";
 	sprite[17].bitmap[0] = "./textures/door_4.xpm";
-	sprite[18].bitmap[0] = "./textures/EA_256.xpm"; //enemigo
+	sprite[18].bitmap[0] = "./textures/skull.xpm"; //enemigo
 	load_sprites(game);
 	render_jumping_background(game);
 }

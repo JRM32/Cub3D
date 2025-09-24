@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 14:35:04 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 14:37:29 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:20:36 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,15 @@ void	check_map(t_map *map)
 ////////////////////
 ///////////////////////////////////////
 ///////////////////
-// void print_map(char **map)
-// {
-//     int i = 0;
-//     while (map[i])
-//     {
-//         printf("%s", map[i]);
-//         i++;
-//     }
-// }
+void print_map(char **map)
+{
+    int i = 0;
+    while (map[i])
+    {
+        printf("%s", map[i]);
+        i++;
+    }
+}
 ////////////////////
 ///////////////////////////////////////
 ///////////////////
@@ -151,11 +151,11 @@ t_map	*process_map(char *map_dir)
 		return (free(map), NULL);
 	zerify_map(map);
 	squarify_map(map->lines, map);
-	// printf("----------------------------\n");
-	// print_map(map->map);
-	// printf("NO_tex: %s\n", map->NO_tex);
-	// printf("WE_tex: %s\n", map->WE_tex);
-	// printf("EA_tex: %s\n", map->EA_tex);
-	// printf("SO_tex: %s\n", map->SO_tex);
+	printf("----------------------------\n");
+	print_map(map->map);
+	printf("NO_tex: %s\n", map->NO_tex);
+	printf("WE_tex: %s\n", map->WE_tex);
+	printf("EA_tex: %s\n", map->EA_tex);
+	printf("SO_tex: %s\n", map->SO_tex);
 	return (map);
 }

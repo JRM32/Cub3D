@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 10:06:00 by user              #+#    #+#             */
-/*   Updated: 2025/09/24 14:33:36 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:20:51 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ int	floodfill(int x, int y, char **arr)
 }
 
 ////////////////////
-///////////////////////////////////////
+///////////debug////////////////////////////
 ///////////////////
-void print_map(char **map)
-{
-    int i = 0;
-    while (map[i])
-    {
-        printf("%s", map[i]);
-        i++;
-    }
-}
+// void print_map(char **map)
+// {
+//     int i = 0;
+//     while (map[i])
+//     {
+//         printf("%s", map[i]);
+//         i++;
+//     }
+// }
 ////////////////////
 ///////////////////////////////////////
 ///////////////////
@@ -64,12 +64,12 @@ int	check_map_errors(t_map *map)
 	int	error;
 
 
-	printf("----------------------------\n");
-	print_map(map->map);
-	printf("NO_tex: %s\n", map->NO_tex);
-	printf("WE_tex: %s\n", map->WE_tex);
-	printf("EA_tex: %s\n", map->EA_tex);
-	printf("SO_tex: %s\n", map->SO_tex);
+	// printf("----------------------------\n");
+	// print_map(map->map);
+	// printf("NO_tex: %s\n", map->NO_tex);
+	// printf("WE_tex: %s\n", map->WE_tex);
+	// printf("EA_tex: %s\n", map->EA_tex);
+	// printf("SO_tex: %s\n", map->SO_tex);
 	
 	error = 0;
 	if (map->NO_tex == NULL || map->EA_tex == NULL
@@ -100,7 +100,7 @@ void	zerify_map(t_map *map)
 		while (map->map[j][i])
 		{
 			if (map->map[j][i] == ' ')
-				map->map[j][i] = '0';
+				map->map[j][i] = 'o';
 			i++;
 		}
 		j++;

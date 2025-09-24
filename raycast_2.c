@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 09:05:40 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/09 19:37:11 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:26:37 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	choose_color(t_game *game, int x)
 	}
 	if (game->win->ray.hit_tile == 'd')
 		game->win->ray.num_texture = 13;
-	color_picker(game, game->win->ray.draw_start, game->win->ray.num_texture, x);
+	color_picker(game, game->win->ray.draw_start,
+		game->win->ray.num_texture, x);
 }
 
