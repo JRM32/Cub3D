@@ -126,6 +126,10 @@ typedef struct s_map
 	int		num_walls;
 	int		no_rectangle;
 	int		no_valid_char;
+	char	*NO_tex;
+	char	*WE_tex;
+	char	*EA_tex;
+	char	*SO_tex;
 	int		sky_color;
 	int		floor_color;
 	int		minicenter;
