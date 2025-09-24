@@ -30,8 +30,8 @@
 # define JUMPING 300
 # define COLLISION_DISTANCE 0.4
 # define ROTATION_SPEED 1.2
-# define VALID_MAP_CHARS "NSEW01 \n\r"
-# define VALID_BONUSMAP_CHARS "NSEW01dx \n\r"//d door, x enemy
+# define VALID_MAP_CHARS "NSEW01\n"
+# define VALID_BONUSMAP_CHARS "NSEW01dx \n"//d door, x enemy
 
 typedef struct s_data
 {
@@ -72,6 +72,7 @@ typedef struct s_ray
 	double	delta_dist_x; //constant distance the ray runs to travel full X grid
 	double	delta_dist_y;
 	double	perp_wall_dist; //perpendicular distance to camera plane from hit
+	double	hit_dist[WIN_W]; //array of distances to compare with sprites
 	int		map_x; //where the player is in the map grid X
 	int		map_y;
 	int		step_x; //direction of ray going. 1=Right, -1=Left
@@ -127,10 +128,6 @@ typedef struct s_map
 	int		no_valid_char;
 	int		sky_color;
 	int		floor_color;
-	char	*NO_tex;
-	char	*WE_tex;
-	char	*EA_tex;
-	char	*SO_tex;
 	int		minicenter;
 	int		minix;
 	int		miniy;
@@ -226,3 +223,4 @@ int		ft_isspace(char c);
 
 
 #endif
+
