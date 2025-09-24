@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:44:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:03:20 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:56:19 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	reset_enemy_view_matrix(t_game *game)
 ...in the map.*/
 void	reposition_enemy(t_game *game, int x, int y)
 {
-	int px;
+	int	px;
 	int	py;
 
 	x = (int)floor(game->enemy.e_x);
@@ -131,7 +131,7 @@ void	reposition_enemy(t_game *game, int x, int y)
 	{
 		x = (int)(((double)rand() / RAND_MAX) * game->map->columns);
 		y = (int)(((double)rand() / RAND_MAX) * game->map->lines);
-		if (game->map->map[y][y] == '0') //CUIDADO QUE EL PARSEO NO PONGA 0 FUERA DEL MAPA Y POR LO TANTO SEGFAULT
+		if (game->map->map[y][x] == '0')
 		{
 			game->enemy.e_x = x + 0.5;
 			game->enemy.e_y = y + 0.5;
