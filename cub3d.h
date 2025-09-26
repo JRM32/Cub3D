@@ -27,8 +27,8 @@
 # define JUMPING 300
 # define COLLISION_DISTANCE 0.4
 # define ROTATION_SPEED 1
-# define VALID_MAP_CHARS "NSEW01 \n"
-# define VALID_BONUSMAP_CHARS "NSEW01dx \n"//d door, x enemy
+# define VALID_MAP_CHARS "NSEW01 \n\r"
+# define VALID_BONUSMAP_CHARS "NSEW01dx \n\r"//d door, x enemy
 
 typedef struct s_data
 {
@@ -118,10 +118,10 @@ typedef struct s_map
 	int		num_walls;
 	int		no_rectangle;
 	int		no_valid_char;
-	char	*NO_tex;
-	char	*WE_tex;
-	char	*EA_tex;
-	char	*SO_tex;
+	char	*no_tex;
+	char	*we_tex;
+	char	*ea_tex;
+	char	*so_tex;
 	int		sky_color;
 	int		floor_color;
 	int		minicenter;
@@ -210,9 +210,8 @@ void	raycaster_door(t_game *game, int x);
 void	enemy(t_game *game);
 void	draw_enemy_on_canvas(t_game *game, t_sprite sprite, int px, int py);
 void	reset_enemy_view_matrix(t_game *game);
-//
-void	print_2d_array(char **arr);
-//
+void	check_internal_lines(char *line, t_map *map, size_t columns, size_t ln);
+int		free_and_get_line(int *is_first_char, char **line, int fd);
 void	squarify_map(size_t size, t_map *map);
 char	*jump_to_map(int fd, char *line, t_map *map);
 void	save_texture_in(char *s, char **buf, int *count);
@@ -224,8 +223,12 @@ int		check_map_errors(t_map *map);
 int		floodfill(int x, int y, char **arr);
 void	zerify_map(t_map *map);
 int		ft_isspace(char c);
-
-
+int		enemy_position(t_game *game, size_t x, size_t y);
+void	reposition_enemy(t_game *game, int x, int y);
+void	calculate_screen_pos_size(t_game *game, double dx, double dy, int i);
+void	free_2d_array(char **arr, size_t size);
+void	set_direction_of_ray(t_game *game);
+void	set_direction_of_ray_door(t_game *game);
+void	door_color_picker(t_game *game, int y, int i, int x);
 
 #endif
-

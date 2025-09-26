@@ -12,13 +12,34 @@
 
 #include "cub3d.h"
 
-void	draw_enemy_on_canvas(t_game *game, t_sprite sprite, int px, int py)
+static int	sprite_pixel_color(t_sprite sprite, int i, int j, int sprite_size)
 {
-	int	i;
-	int	j;
-	int	color;
 	int	tex_x;
 	int	tex_y;
+
+	tex_x = (i * TEXTURE_W) / sprite_size;
+	tex_y = (j * TEXTURE_H) / sprite_size;
+	return (*(unsigned int *)(sprite.img[0].addr + (tex_y
+			* sprite.img[0].line_length + tex_x
+			* (sprite.img[0].bits_x_pixel / 8))));
+}
+
+static void	draw_enemy_pixel_if_visible(t_game *game, int x, int y, int color)
+{
+	if (color != 0x0000FF00
+		&& game->win->ray.hit_dist[x] > game->enemy.e_dist
+		&& game->win->ray.green_pixel[x][y] == 1)
+		put_pixel(&game->win->canvas, x, y, color);
+	else if (color != 0x0000FF00
+		&& game->win->ray.door_dist[x] > game->enemy.e_dist)
+		put_pixel(&game->win->canvas, x, y, color);
+}
+
+void	draw_enemy_on_canvas(t_game *game, t_sprite sprite, int px, int py)
+{
+	int	color;
+	int	j;
+	int	i;
 
 	j = 0;
 	while (j < game->enemy.sprite_size)
@@ -30,18 +51,9 @@ void	draw_enemy_on_canvas(t_game *game, t_sprite sprite, int px, int py)
 			{
 				if (px + i >= 0 && px + i < WIN_W)
 				{
-					tex_x = (i * TEXTURE_W) / game->enemy.sprite_size;
-					tex_y = (j * TEXTURE_H) / game->enemy.sprite_size;
-					color = *(unsigned int *)(sprite.img[0].addr + (tex_y
-								* sprite.img[0].line_length + tex_x
-								* (sprite.img[0].bits_x_pixel / 8)));
-					if (color != 0x0000FF00 && game->win->ray.hit_dist[px
-						+ i] > game->enemy.e_dist
-						&& game->win->ray.green_pixel[px + i][py + j] == 1)
-						put_pixel(&game->win->canvas, px + i, py + j, color);
-					else if (color != 0x0000FF00 && game->win->ray.door_dist[px
-						+ i] > game->enemy.e_dist)
-						put_pixel(&game->win->canvas, px + i, py + j, color);
+					color = sprite_pixel_color(sprite, i, j,
+							game->enemy.sprite_size);
+					draw_enemy_pixel_if_visible(game, px + i, py + j, color);
 				}
 				i++;
 			}

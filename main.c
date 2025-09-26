@@ -24,14 +24,14 @@ void	free_map(t_map *map, int full_clean)
 		i++;
 	}
 	free(map->map);
-	free(map->NO_tex);
-	free(map->SO_tex);
-	free(map->WE_tex);
-	free(map->EA_tex);
-	map->NO_tex = NULL;
-	map->SO_tex = NULL;
-	map->WE_tex = NULL;
-	map->EA_tex = NULL;
+	free(map->no_tex);
+	free(map->so_tex);
+	free(map->we_tex);
+	free(map->ea_tex);
+	map->no_tex = NULL;
+	map->so_tex = NULL;
+	map->we_tex = NULL;
+	map->ea_tex = NULL;
 	if (full_clean)
 		free(map);
 }

@@ -43,37 +43,13 @@ int	floodfill(int x, int y, char **arr)
 	return (up && down && left && right);
 }
 
-////////////////////
-///////////debug////////////////////////////
-///////////////////
-// void print_map(char **map)
-// {
-//     int i = 0;
-//     while (map[i])
-//     {
-//         printf("%s", map[i]);
-//         i++;
-//     }
-// }
-////////////////////
-///////////////////////////////////////
-///////////////////
-
 int	check_map_errors(t_map *map)
 {
 	int	error;
 
-
-	// printf("----------------------------\n");
-	// print_map(map->map);
-	// printf("NO_tex: %s\n", map->NO_tex);
-	// printf("WE_tex: %s\n", map->WE_tex);
-	// printf("EA_tex: %s\n", map->EA_tex);
-	// printf("SO_tex: %s\n", map->SO_tex);
-	
 	error = 0;
-	if (map->NO_tex == NULL || map->EA_tex == NULL
-		|| map->SO_tex == NULL || map->WE_tex == NULL)
+	if (map->no_tex == NULL || map->ea_tex == NULL
+		|| map->so_tex == NULL || map->we_tex == NULL)
 		error = printf("Error\nNeed to specify textures in .cub file\n");
 	if (map->floor_color == -1 || map->sky_color == -1)
 		error = printf("Error\nSky/floor color not formated correctly\n");
@@ -106,4 +82,3 @@ void	zerify_map(t_map *map)
 		j++;
 	}
 }
-

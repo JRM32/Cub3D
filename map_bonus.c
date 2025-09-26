@@ -13,30 +13,6 @@
 #include "cub3d.h"
 #include "get_next_line.h"
 
-void	check_internal_lines(char *line, t_map *map, size_t columns, size_t ln)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (i == 0 && line[0] == '1' && ft_strlen(line) == columns)
-			map->num_walls++;
-		if (i == (columns - 1) && line[columns - 1] == '1'
-			&& ft_strlen(line) == columns)
-			map->num_walls++;
-		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E'
-			|| line[i] == 'W')
-		{
-			map->num_p++;
-			map->p_x = i + 0.5;
-			map->p_y = (ln - 1) + 0.5;
-			init_looking_direction(map, line[i]);
-		}
-		i++;
-	}
-}
-
 void	check_line(char *line, char *next_line, t_map *map, size_t columns)
 {
 	size_t	i;
@@ -56,13 +32,22 @@ void	check_line(char *line, char *next_line, t_map *map, size_t columns)
 		check_internal_lines(line, map, columns, map->lines);
 }
 
-
-int	free_and_get_line(int *is_first_char, char **line, int fd)
+static void	process_map_line(char *line, int *i, int *is_first_char, t_map *map)
 {
-	free(*line);
-	*line = get_next_line(fd);
-	*is_first_char = 1;
-	return (0);
+	if (line[*i] == 'N' && line[*i + 1] == 'O' && *is_first_char)
+		save_texture_in(&(line[*i + 2]), &(map->no_tex), i);
+	else if (line[*i] == 'S' && line[*i + 1] == 'O' && *is_first_char)
+		save_texture_in(&(line[*i + 2]), &(map->so_tex), i);
+	else if (line[*i] == 'W' && line[*i + 1] == 'E' && *is_first_char)
+		save_texture_in(&(line[*i + 2]), &(map->we_tex), i);
+	else if (line[*i] == 'E' && line[*i + 1] == 'A' && *is_first_char)
+		save_texture_in(&(line[*i + 2]), &(map->ea_tex), i);
+	else if (line[*i] == 'F' && *is_first_char)
+		save_color_in(&(line[*i + 1]), &(map->floor_color), i);
+	else if (line[*i] == 'C' && *is_first_char)
+		save_color_in(&(line[*i + 1]), &(map->sky_color), i);
+	else if (!ft_isspace(line[*i]))
+		*is_first_char = 0;
 }
 
 char	*jump_to_map(int fd, char *line, t_map *map)
@@ -76,20 +61,9 @@ char	*jump_to_map(int fd, char *line, t_map *map)
 	{
 		if (line[++i] == '\0')
 			i = free_and_get_line(&is_first_char, &line, fd);
-		if (line[i] == 'N' && line[i + 1] == 'O' && is_first_char)
-			save_texture_in(&(line[i + 2]), &(map->NO_tex), &i);
-		else if (line[i] == 'S' && line[i + 1] == 'O' && is_first_char)
-			save_texture_in(&(line[i + 2]), &(map->SO_tex), &i);
-		else if (line[i] == 'W' && line[i + 1] == 'E' && is_first_char)
-			save_texture_in(&(line[i + 2]), &(map->WE_tex), &i);
-		else if (line[i] == 'E' && line[i + 1] == 'A' && is_first_char)
-			save_texture_in(&(line[i + 2]), &(map->EA_tex), &i);
-		else if (line[i] == 'F' && is_first_char)
-			save_color_in(&(line[i + 1]), &(map->floor_color), &i);
-		else if (line[i] == 'C' && is_first_char)
-			save_color_in(&(line[i + 1]), &(map->sky_color), &i);
-		else if (!ft_isspace(line[i]))
-			is_first_char = 0;
+		if (!line)
+			return (NULL);
+		process_map_line(line, &i, &is_first_char, map);
 	}
 	return (line);
 }
@@ -111,21 +85,6 @@ void	check_map(t_map *map)
 		i++;
 	}
 }
-////////////////////
-///////////////////////////////////////
-///////////////////
-void print_map(char **map)
-{
-    int i = 0;
-    while (map[i])
-    {
-        printf("%s", map[i]);
-        i++;
-    }
-}
-////////////////////
-///////////////////////////////////////
-///////////////////
 
 t_map	*process_map(char *map_dir)
 {
@@ -151,11 +110,5 @@ t_map	*process_map(char *map_dir)
 		return (free(map), NULL);
 	zerify_map(map);
 	squarify_map(map->lines, map);
-	printf("----------------------------\n");
-	print_map(map->map);
-	printf("NO_tex: %s\n", map->NO_tex);
-	printf("WE_tex: %s\n", map->WE_tex);
-	printf("EA_tex: %s\n", map->EA_tex);
-	printf("SO_tex: %s\n", map->SO_tex);
 	return (map);
 }

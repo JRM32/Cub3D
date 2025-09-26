@@ -92,7 +92,6 @@ void	render_jumping_background(t_game *game)
 	int		y;
 	int		back_h;
 
-
 	back_h = WIN_H + 2 * JUMPING;
 	game->win->bg.img = mlx_new_image(game->win->mlx, WIN_W, back_h);
 	if (!game->win->bg.img)

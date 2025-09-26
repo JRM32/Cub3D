@@ -113,8 +113,7 @@ int	update_frame(t_game *game)
 		mlx_hook(game->win->win, MotionNotify, PointerMotionMask,
 			mouse_rotation, game);
 	else
-		mlx_hook(game->win->win, MotionNotify, PointerMotionMask,
-			NULL, game);
+		mlx_hook(game->win->win, MotionNotify, PointerMotionMask, NULL, game);
 	draw_floor_ceiling(game);
 	while (x < game->win->width)
 	{

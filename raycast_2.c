@@ -12,6 +12,44 @@
 
 #include "cub3d.h"
 
+/*step_x/y indicate direction the ray goes seen from up-down map (N-S-E-W)
+if ray.dir_x > 0 -> step_x = 1 (goes to the EAST)
+ray.dir_x < 0 -> step_x = -1 (goes WEST);
+ray.dir_y > 0 -> step_y = 1 (goes SOUTH);
+ray.dir_Y < 0 -> step_Y = -1 (goes NORTH);
+we could use then same ray.dir_x/y, BUT step_x/y are INTs so we remove the
+floating point in every 'step' that the ray make in same direction that will
+run same delta_dist_x/y 
+
+RAY.dist_x/y is the distance of the full ray already, BUT the first time is not
+the delta one, it is shorter.  */
+void	set_direction_of_ray(t_game *game)
+{
+	t_ray	*ray;
+
+	ray = &game->win->ray;
+	if (ray->dir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->dist_x = (game->map->p_x - ray->map_x) * ray->delta_dist_x;
+	}
+	else
+	{
+		ray->step_x = 1;
+		ray->dist_x = (ray->map_x + 1.0 - game->map->p_x) * ray->delta_dist_x;
+	}
+	if (ray->dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->dist_y = (game->map->p_y - ray->map_y) * ray->delta_dist_y;
+	}
+	else
+	{
+		ray->step_y = 1;
+		ray->dist_y = (ray->map_y + 1.0 - game->map->p_y) * ray->delta_dist_y;
+	}
+}
+
 /*modify the color with distance. More distance darker*/
 /*LIGHT default is 2. Higher number brighter will be*/
 /*to better performance instead of make float operations we make to int*/
@@ -110,4 +148,3 @@ void	choose_color(t_game *game, int x)
 	color_picker(game, game->win->ray.draw_start,
 		game->win->ray.num_texture, x);
 }
-
