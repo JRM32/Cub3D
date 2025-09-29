@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:56:40 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/29 15:56:44 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:29:13 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	set_draw_length_without_fish_fx(t_game *game, int x)
    between -1 and 1 in floating point.
 2. If we have a dir looking vector of (0, -1) (looking NORTH) for a FOV of...
    ...66° the fov_factor would be 0.66 so rotation to right of 90° the...
-   ...looking direction (camera plane) would be (0.66, 0) Look map_2.c explain.
+   ...looking direction (camera plane) would be (0.66, 0) Look map_4.c explain.
 3. RAY.dir_X/Y are the direction (angle with looking dir) that the ray goes.
    for the most left ray in a looking (0, -1) vector that would be:
    RAY.dir_x = 0 + 0.66 * -1 = -0.66

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:46:31 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:18:53 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:36:01 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 /* plane_x/y is a rotation vector from dirx/y 90deg or π/2 so applying the...
 ...matrix rotation in 2D:
-R(a) = ⎡ cos(θ)     -sin(θ)⎤ * 	⎡x⎤ -> ⎡A B⎤ * ⎡E⎤ = ⎡AE + BF⎤
-		⎣ sin(θ)      cos(θ)⎦	⎣y⎦ -> ⎣C D⎦   ⎣F⎦   ⎣CE + DF⎦
+R(a) =  ⎡ cos(θ)     -sin(θ)⎤ * 	⎡x⎤ -> ⎡A B⎤ * ⎡E⎤ = ⎡AE + BF⎤
+		⎣ sin(θ)      cos(θ)⎦		⎣y⎦ -> ⎣C D⎦   ⎣F⎦   ⎣CE + DF⎦
 so...
 	x' = x * cos(θ) + (y * -sin(θ))
 	y' = x * sin(θ) + y * cos(θ)
