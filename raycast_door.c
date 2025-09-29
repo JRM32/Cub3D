@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_door.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:39:04 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:29:55 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:56:05 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,11 @@ void	state_of_the_door(t_game *game, double py, double px, int x)
 	grid = game->map->map[(int)floor(py)][(int)floor(px)];
 	if (n_grid == 'd' || e_grid == 'd' || s_grid == 'd' || w_grid == 'd'
 		|| grid == 'd')
-		door_color_picker(game, game->win->ray.draw_start, add_index(game, 1), x);
+		door_color_picker(game, game->win->ray.draw_start,
+			add_index(game, 1), x);
 	else
-		door_color_picker(game, game->win->ray.draw_start, add_index(game, 0), x);
+		door_color_picker(game, game->win->ray.draw_start,
+			add_index(game, 0), x);
 }
 
 void	raycaster_door(t_game *game, int x)

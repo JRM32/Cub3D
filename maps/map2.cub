@@ -1,10 +1,10 @@
-NO ./textures/door_2.xpm
-EA ./textures/EA_256.xpm
-WE ./textures/WE_256.xpm
-SO ./textures/SO_256.xpm
+NO ./textures/stonewall.xpm
+EA ./textures/stonewall.xpm
+WE ./textures/stonewall_dark.xpm
+SO ./textures/stonewall_dark.xpm
 
-F 255,0,0
-C 0,255,0
+F 102,68,0
+C 102,0,68
 
 
 1111111111111111111111

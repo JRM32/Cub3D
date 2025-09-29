@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:19:28 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:35:13 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 14:43:52 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	load_sprites(t_game *game)
 		if (!sprite[i].img[0].img)
 		{
 			clean_up_memory(game, 0);
+			printf("Error\nTexture file not found. Map not valid");
 			exit (1);
 		}
 		load_texture_address(&sprite[i].img[0], game);

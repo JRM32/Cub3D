@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:02:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 14:22:26 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 14:56:34 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ t_map	*process_map(char *map_dir)
 	load_map(map, map_dir);
 	check_map(map);
 	if (check_map_errors(map) || map->lines == 0)
-		return (free(map), NULL);
+		return (free_map(map, 1), NULL);
 	if (!map->map)
 		return (free(map), NULL);
 	if (!floodfill(map->p_y, map->p_x, map->map))
 	{
 		printf("Error\nMap not fully surrounded by walls\n");
-		return (free(map), NULL);
+		return (free_map(map, 1), NULL);
 	}
 	free_map(map, 0);
 	load_map(map, map_dir);
