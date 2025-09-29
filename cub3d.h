@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:50:50 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/29 12:50:52 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:17:12 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include <stdio.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <errno.h>
 
 # include <X11/X.h>
 # include <X11/keysym.h>

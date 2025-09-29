@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:46:31 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:18:53 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:37:37 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,20 @@
 int	parse_color_component(const char *s, int *i)
 {
 	int	value;
+	int	savei;
 
 	while (ft_isspace(s[*i]) || s[*i] == ',')
 		(*i)++;
+	savei = *i;
+	while (s[savei] && s[savei] != '\n')
+	{
+		printf("HOLA: %c\n", s[savei]);
+		if (!ft_isdigit(s[savei]) && s[savei] != ',' && s[savei] != ' ')
+			return (-1);
+		savei++;
+	}
 	value = ft_atoi(&s[*i]);
-	if (ft_strlen(&s[*i]) == 0 || value < 0 || value > 255)
+	if (value < 0 || value > 255)
 		return (-1);
 	while (s[*i] && s[*i] != ',')
 		(*i)++;

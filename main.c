@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:10:14 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:28:39 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,51 @@ void	clean_up_memory(t_game *game, size_t i)
 		free(game->win);
 	if (game->map)
 		free_map(game->map, 1);
-	free (game);
+	free(game);
 }
 
 /*mlx_mouse_hide has leaks*/
-//mlx_mouse_hide(game->win->mlx, game->win->win);
+// mlx_mouse_hide(game->win->mlx, game->win->win);
 void	hooks(t_game *game)
 {
 	mlx_mouse_move(game->win->mlx, game->win->win, WIN_W / 2, WIN_H / 2);
 	mlx_loop_hook(game->win->mlx, update_frame, game);
 	mlx_hook(game->win->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win->win, 3, 1L << 1, key_release, game);
-	mlx_hook(game->win->win, MotionNotify, PointerMotionMask,
-		mouse_rotation, game);
+	mlx_hook(game->win->win, MotionNotify, PointerMotionMask, mouse_rotation,
+		game);
 	mlx_hook(game->win->win, 17, 0, close_win, game);
 	mlx_loop(game->win->mlx);
+}
+
+int	ends_with_cub(const char *filename)
+{
+	size_t	len;
+
+	len = strlen(filename);
+	return (len >= 4 && strcmp(filename + len - 4, ".cub") == 0);
+}
+
+int	is_valid(const char *path)
+{
+	struct stat	st;
+	int			fd;
+	int			error;
+
+	error = 0;
+	if (stat(path, &st) != 0)
+		error = printf("Error\n File does not exist\n");
+	else if (S_ISDIR(st.st_mode))
+		error = printf("Error\n '%s' is a directory\n", path);
+	else if (!ends_with_cub(path))
+		error = printf("Error\n File must have a .cub extension\n");
+	fd = open(path, O_RDONLY);
+	if (fd < 0 && error == 0)
+		error = printf("Error\n Cannot open file for reading\n");
+	close(fd);
+	if (error == 0)
+		return (1);
+	return (0);
 }
 
 /*Could use t_window without pointer BUT 'cause errors in free I init all to 0*/
@@ -97,6 +127,9 @@ int	main(int argc, char **argv)
 	t_game	*game;
 
 	if (argc != 2)
+		return (printf("Error\nCub3D must recieve only one argum")
+			- printf("ment, which should be the .cub file \n"));
+	if (!is_valid(argv[1]))
 		return (1);
 	(void)argc;
 	game = (t_game *)ft_calloc(1, sizeof(t_game));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:02:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/29 14:56:34 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:13:14 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	check_map(t_map *map)
 	i = 0;
 	map->lines = 0;
 	map->columns = 0;
-	while (map->map[i])
+	while (map->map && map->map[i])
 	{
 		len = ft_strlen(map->map[i]);
 		if (map->columns < len)

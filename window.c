@@ -6,12 +6,13 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:15:33 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:36:33 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:00:07 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+//norminette cub3d.h floor_ceiling.c  get_next_line.h libft map_3.c  map_bonus.c raycast_2.c rotation.c textures door_bonus.c frame_bonus.c    get_next_line_utils.c  main.c map_4.c  map.c minimap_bonus.c  raycast.c sprite_bonus.c  window.c enemy_bonus2.c  frame.c jump.c  map_5.c  movement.c raycast_door_2.c  sprite.c enemy_bonus.c   get_next_line.c  keys.c map_2.c   map_6.c  menu_keys.c  pixels.c raycast_door.c sprite_draw.c
 void	error_window(t_game *game, int option)
 {
 	if (option == 0)
