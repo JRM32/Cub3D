@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   enemy_bonus2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:44:09 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/24 15:56:19 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:35:05 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <time.h>
+
+void	enemy_invisible_behind_screen(t_game *game)
+{
+	if (game->enemy.screen_x + game->enemy.sprite_size < 0
+		|| game->enemy.screen_x >= WIN_W
+		|| game->enemy.screen_y + game->enemy.sprite_size < 0)
+		game->enemy.visible = 0;
+	else
+		game->enemy.visible = 1;
+}
 
 /*just one enemy 'x' allowed, if more return 1, else 0*/
 int	enemy_position(t_game *game, size_t x, size_t y)
@@ -59,7 +69,8 @@ if (trans_y <= 0.0) return; if sprite is behind camera don't calculate.
 
 if (sprite_size > WIN_H * 2) sprite_size = WIN_H * 2; to not force high spend...
 in performance.
-Last return is to not glue the sprite when moving camera to border of screen*/
+Last return is to not glue the sprite when moving camera to border of screen.
+if enemy is behind de camera then we don't draw it*/
 void	calculate_screen_pos_size(t_game *game, double dx, double dy, int i)
 {
 	t_map	*map;
@@ -73,7 +84,10 @@ void	calculate_screen_pos_size(t_game *game, double dx, double dy, int i)
 	trans_x = inv_det * (map->dir_y * dx - map->dir_x * dy);
 	trans_y = inv_det * (-map->plane_y * dx + map->plane_x * dy);
 	if (trans_y <= 0.0)
+	{
+		game->enemy.visible = 0;
 		return ;
+	}
 	sprite_size = (int)fabs(WIN_H / trans_y);
 	if (sprite_size > WIN_H * 2)
 		sprite_size = WIN_H * 2;
@@ -83,8 +97,5 @@ void	calculate_screen_pos_size(t_game *game, double dx, double dy, int i)
 	game->enemy.screen_y = -game->enemy.sprite_size / 2 + WIN_H / 2
 		+ game->win->ray.walking_height
 		+ sin(i) * game->enemy.sprite_size / 20.0f;
-	if (game->enemy.screen_x + game->enemy.sprite_size < 0
-		|| game->enemy.screen_x >= WIN_W
-		|| game->enemy.screen_y + game->enemy.sprite_size < 0)
-		return ;
+	enemy_invisible_behind_screen(game);
 }

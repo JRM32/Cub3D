@@ -6,7 +6,7 @@
 /*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:58:39 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/29 15:58:42 by jrollon-         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:18:01 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,9 @@ void	enemy(t_game *game)
 		move_enemy(game, 0, 0);
 		calculate_screen_pos_size(game, e_dx, e_dy, game->enemy.float_index);
 		game->enemy.float_index += 0.2f;
-		draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x,
-			foe->screen_y);
+		if (game->enemy.visible)
+			draw_enemy_on_canvas(game, game->win->sprite[18], foe->screen_x,
+				foe->screen_y);
 		reset_enemy_view_matrix(game);
 	}
 }
