@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrollon- <jrollon-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 12:50:50 by jrollon-          #+#    #+#             */
-/*   Updated: 2025/09/29 17:17:12 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:13:23 by jrollon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 # include <stdio.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <errno.h>
 
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -188,6 +184,7 @@ typedef struct s_enemy
 	float	float_index;
 	int		time;
 	int		despawn;
+	int		visible;
 }			t_enemy;
 
 typedef struct s_game
