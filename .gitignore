@@ -1,3 +1,6 @@
-texture/
-minilibx-linux/
-maps/
+*.o
+cub3D
+.vscode/
+*.a
+.gitignore
+
